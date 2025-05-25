@@ -118,7 +118,7 @@ return [
             'host'           => env('DB_HOST', 'localhost'),
             'port'           => env('DB_PORT', '1521'),
             'database'       => env('DB_SERVICE_NAME', 'xe'),
-            'username'       => env('DB_USERNAME', 'BD_EMPLEADOS'),
+            'username'       => env('DB_USERNAME', 'ENTREGA_TOPICOS'),
             'password'       => env('DB_PASSWORD', 'oracle'),
             'charset'        => 'AL32UTF8',
             'prefix'         => '',
