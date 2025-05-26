@@ -8,9 +8,7 @@ use App\Services\EmpleadoService;
 use Illuminate\Support\Facades\DB;
 
 class EmpleadoController extends Controller
-{
-    
-    protected $empleadoService;
+{    protected $empleadoService;
 
     public function __construct(EmpleadoService $empleadoService)
     {
@@ -20,7 +18,7 @@ class EmpleadoController extends Controller
     // Listar empleados
     public function index()
     {
-        $empleados = DB::select('SELECT * FROM empleados ORDER BY id DESC');
+        $empleados = DB::select('SELECT * FROM EMPLEADO ORDER BY ID_EMPLEADO DESC');
         return response()->json($empleados);
     }
 
@@ -28,19 +26,26 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'salario' => 'required|numeric|min:0',
+            'nombre'    => 'required|string|max:100',
+            'ubicacion' => 'required|string|max:100',
+            'telefono'  => 'required|numeric|digits_between:7,15',
+            'id_lote'   => 'required|integer|exists:LOTE,ID_LOTE',
         ]);
 
-        $this->empleadoService->insertarEmpleado($request->nombre, $request->salario);
+        $this->empleadoService->insertarEmpleado(
+            $request->nombre,
+            $request->ubicacion,
+            $request->telefono,
+            $request->id_lote
+        );
 
         return response()->json(['message' => 'Empleado creado con éxito'], 201);
     }
 
     // Mostrar un empleado
-    public function show($id)
+    public function show($id_empleado)
     {
-        $empleado = $this->empleadoService->obtenerEmpleado($id);
+        $empleado = $this->empleadoService->obtenerEmpleado($id_empleado);
 
         if (empty($empleado)) {
             return response()->json(['message' => 'Empleado no encontrado'], 404);
@@ -50,24 +55,32 @@ class EmpleadoController extends Controller
     }
 
     // Actualizar empleado
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_empleado)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'salario' => 'required|numeric|min:0',
+            'nombre'    => 'required|string|max:100',
+            'ubicacion' => 'required|string|max:100',
+            'telefono'  => 'required|numeric|digits_between:7,15',
+            'id_lote'   => 'required|integer|exists:LOTE,ID_LOTE',
         ]);
 
-        $this->empleadoService->actualizarEmpleado($id, $request->nombre, $request->salario);
+        $this->empleadoService->actualizarEmpleado(
+            $id_empleado,
+            $request->nombre,
+            $request->ubicacion,
+            $request->telefono,
+            $request->id_lote
+        );
 
         return response()->json(['message' => 'Empleado actualizado']);
     }
 
     // Eliminar empleado
-    public function destroy($id)
+    public function destroy($id_empleado)
     {
-        $this->empleadoService->eliminarEmpleado($id);
+        $this->empleadoService->eliminarEmpleado($id_empleado);
 
         return response()->json(['message' => 'Empleado eliminado']);
     }
-
+    
 }

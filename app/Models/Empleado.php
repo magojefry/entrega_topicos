@@ -6,17 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empleado extends Model
 {
-    protected $table = 'EMPLEADOS';      // Usa el nombre real exacto (mayúsculas si aplica)
-    protected $primaryKey = 'ID';        // Campo clave
+    protected $table = 'EMPLEADO';
 
-    public $incrementing = false;        // Importante: desactiva autoincremento al estilo MySQL
-    protected $keyType = 'int';          // Indica que la clave es numérica
+    protected $primaryKey = 'ID_EMPLEADO';
 
-    public $timestamps = false;          // Si no tienes created_at y updated_at
+    public $incrementing = true;
+
+    protected $keyType = 'int';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'NOMBRE',
-        'SALARIO',
-        'FECHA_INGRESO',
+        'UBICACION',
+        'TELEFONO',
+        'ID_LOTE',
     ];
 }
